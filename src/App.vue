@@ -1,32 +1,68 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+<v-app id="inspire">
+
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <v-list-item link v-for="link in links" :key="link.text" router :to="link.route">
+          <v-list-item-action>
+            <v-icon>{{ link.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ link.text }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar app color="primary" dark>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title>Casa Jerusalem</v-toolbar-title>
+    </v-app-bar>
+
+
+    <v-main>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col class="text-center">
+            <router-view></router-view>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+    
+    <v-footer color="primary" app>
+      <span class="white--text">&copy; {{ 'Casa Jerusalem ' + new Date().getFullYear() }}</span>
+    </v-footer>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import Vue from 'vue';
+//import HelloWorld from './components/HelloWorld.vue';
+//import Login from './views/Login.vue';
+//import Menu from './components/Menu.vue';
+//import Home from './views/Home.vue';
 
-#nav {
-  padding: 30px;
-}
+export default Vue.extend({
+  name: 'App',
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  components: {
+    //HelloWorld,
+    //Login,
+//    Menu,
+    //Home,
+  },
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  props: {
+  },
+  data(){
+    return {
+        drawer: null,
+        links: [
+            { icon:'mdi-home',text:'Principal', route:'/home'},
+            { icon:'mdi-account',text:'Conectarce', route:'/login'},
+            { icon:'mdi-home',text:'About', route:'/about'},
+        ]
+    }
+  }
+});
+</script>

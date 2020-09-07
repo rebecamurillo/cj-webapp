@@ -1,21 +1,45 @@
 <template>
-  <div class="about">
-    <form>
-      <label for="email">Email:</label><br>
-      <input id="email" required="required" placeholder="Correo electronico" type="text" name="email">
-      <br><br>
-      <label for="password">Contrasena</label>
-      <br>
-      <input id="email" required="required" placeholder="Contrasena" name="password" type="password">
-    </form>
-  </div>
+<v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4" >
+            <v-card class="elevation-12">
+              <v-toolbar color="secondary" dark flat>
+                <v-toolbar-title>Ingresar al sistema</v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    label="Correo electronico"
+                    name="login"
+                    prepend-icon="mdi-account"
+                    type="text"
+                  ></v-text-field>
+
+                  <v-text-field
+                    id="password"
+                    label="Contraseña"
+                    name="password"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                  ></v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="accent">Conexion</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class HelloWorld extends Vue {
+export default class Login extends Vue {
   @Prop() private msg!: string;
 }
 </script>
