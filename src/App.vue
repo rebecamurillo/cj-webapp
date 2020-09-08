@@ -28,7 +28,7 @@
         </v-row>
       </v-container>
     </v-main>
-    
+
     <v-footer color="primary" app>
       <span class="white--text">&copy; {{ 'Casa Jerusalem ' + new Date().getFullYear() }}</span>
     </v-footer>
@@ -60,7 +60,7 @@ export default Vue.extend({
         links: [
             { icon:'mdi-home',text:'Principal', route:'/home'},
             { icon:'mdi-account',text:'Conectarce', route:'/login'},
-            { icon:'mdi-home',text:'About', route:'/about'},
+            { icon:'mdi-home',text:'Quien soy ?', route:'/about'},
         ]
     }
   }

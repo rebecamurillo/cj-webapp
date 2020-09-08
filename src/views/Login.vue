@@ -14,6 +14,7 @@
                     name="login"
                     prepend-icon="mdi-account"
                     type="text"
+                    v-model="loginData.email"
                   ></v-text-field>
 
                   <v-text-field
@@ -22,12 +23,14 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
+                    v-model="loginData.password"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="accent">Conexion</v-btn>
+                <v-btn color="accent" v-on:click="sendLogin()">Conexion</v-btn>
+                <v-btn color="accent" v-on:click="testToken()">Test token</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -36,10 +39,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import axios from 'axios';
+import Vue from 'vue';
+import { login, whoAmI } from '../modules/auth/auth.module';
+//import config from 'config.js'
 
-@Component
-export default class Login extends Vue {
-  @Prop() private msg!: string;
-}
+export default Vue.extend({
+  data () {
+    return {
+      msg: 'Bonjour',
+      loginData: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    sendLogin(): any {
+      login(this.loginData);
+    },
+    testToken(): any {
+      whoAmI().then(res => {
+        console.log('THEN');
+        console.log(res);
+      });  
+    }
+  },
+})
 </script>

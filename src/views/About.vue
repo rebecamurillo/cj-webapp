@@ -1,11 +1,33 @@
 <template>
-<v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12">
-              <h1>This is an about page</h1>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+    <h1>Yo soy : <br> {{ whoAmI }} </h1>
 </template>
+
+<script>
+import Vue from 'vue';
+import { whoAmI } from '../modules/auth/auth.module';
+
+export default Vue.extend({
+  data() {
+    return {
+      posts: [],
+      errors: [],
+      whoAmI: '',
+    }
+  },
+
+  created() {
+    //whoAmI() {
+    whoAmI().then((resp) => {
+      console.log('THEN response');
+      console.log(resp);
+      this.whoAmI= resp;
+    }); 
+    console.log('CREATED this.whoAmI');
+    console.log(this.whoAmI);
+  },
+  mounted() {
+    console.log('MOUNTED this.whoAmI');
+    console.log(this.whoAmI);
+  },
+})
+</script>
