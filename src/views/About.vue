@@ -9,25 +9,13 @@ import { whoAmI } from '../modules/auth/auth.module';
 export default Vue.extend({
   data() {
     return {
-      posts: [],
-      errors: [],
       whoAmI: '',
     }
   },
-
-  created() {
-    //whoAmI() {
-    whoAmI().then((resp) => {
-      console.log('THEN response');
-      console.log(resp);
-      this.whoAmI= resp;
-    }); 
-    console.log('CREATED this.whoAmI');
-    console.log(this.whoAmI);
-  },
   mounted() {
-    console.log('MOUNTED this.whoAmI');
-    console.log(this.whoAmI);
+    whoAmI().then(res => {
+      this.whoAmI = res.data;
+    });  
   },
 })
 </script>

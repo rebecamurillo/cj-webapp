@@ -32,6 +32,7 @@
                 <v-btn color="accent" v-on:click="sendLogin()">Conexion</v-btn>
                 <v-btn color="accent" v-on:click="testToken()">Test token</v-btn>
               </v-card-actions>
+              <span style="color:red;"> {{errorMsg}} </span>
             </v-card>
           </v-col>
         </v-row>
@@ -47,7 +48,7 @@ import { login, whoAmI } from '../modules/auth/auth.module';
 export default Vue.extend({
   data () {
     return {
-      msg: 'Bonjour',
+      errorMsg: '',
       loginData: {
         email: '',
         password: ''
@@ -56,7 +57,13 @@ export default Vue.extend({
   },
   methods: {
     sendLogin(): any {
-      login(this.loginData);
+      login(this.loginData).then( (res) => {
+        if (res.data){
+          this.$router.push('/')
+        }else if (res.error){
+          this.errorMsg = 'Error de conexion.'
+        }
+      });
     },
     testToken(): any {
       whoAmI().then(res => {
