@@ -42,7 +42,7 @@
 <script lang="ts">
 import axios from 'axios';
 import Vue from 'vue';
-import { login, whoAmI } from '../modules/auth/auth.module';
+import { login, whoAmI } from '../modules/auth/auth.service';
 //import config from 'config.js'
 
 export default Vue.extend({

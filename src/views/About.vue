@@ -4,7 +4,7 @@
 
 <script>
 import Vue from 'vue';
-import { whoAmI } from '../modules/auth/auth.module';
+import { whoAmI } from '../modules/auth/auth.service';
 
 export default Vue.extend({
   data() {

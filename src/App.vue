@@ -56,7 +56,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { logout } from './modules/auth/auth.module';
+import { logout } from './modules/auth/auth.service';
 
 export default Vue.extend({
   name: 'App',
