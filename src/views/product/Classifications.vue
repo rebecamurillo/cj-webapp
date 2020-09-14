@@ -41,7 +41,35 @@
             item-key="id"
             show-select
             class="elevation-1"
+            :expanded.sync="expanded"
+            :show-expand="true"
+            :single-expand="true"
           >
+            <template v-slot:expanded-item="{ headers,item}">
+              <td :colspan="headers.length">
+                <v-form class="d-flex flex-row">
+                  <v-text-field
+                  v-model="classificationDataToUpdate.name"
+                      :ref="item.id+'-name'"
+                      :placeholder="item.name"
+                      label="Categoria"
+                      outlined dense
+                  ></v-text-field>
+                  <v-text-field
+                  v-model="classificationDataToUpdate.description"
+                      :ref="item.id+'-desc'"
+                      :placeholder="item.description"
+                      type="text"
+                      label="Descripcion"
+                      outlined dense
+                  ></v-text-field>
+                  <v-btn color="accent" @click.prevent="updateClassification(item.id,item.id+'-name',item.id+'-desc')">Modificar</v-btn>
+                </v-form>
+                <span style="color:green;"> {{msgSuccess3}}</span>
+                <br>
+                <span style="color:red;"> {{msgError3}}</span>
+              </td>
+            </template>
           </v-data-table>
           <br>
           <v-btn color="accent" v-on:click="deleteSelectedClassifications()">Eliminar</v-btn>
@@ -59,19 +87,26 @@
 </style>
 <script>
 import Vue from 'vue';
-import { postClassification,getClassificationsSorted,deleteClassificationById,deleteClassifications } from '../../modules/classification/classification.service';
+import { postClassification,getClassificationsSorted,deleteClassifications,updateClassificationById } from '../../modules/classification/classification.service';
 
 export default Vue.extend({
   data() {
     return {
+      expanded: [],
       msgSuccess1: '',
       msgError1: '',
       msgSuccess2: '',
       msgError2: '',
+      msgSuccess3: '',
+      msgError3: '',
       classificationData: {
         name:'',
         description:'',
         parentId:0
+      },
+      classificationDataToUpdate: {
+        name:'',
+        description:''
       },
       selectedLines: [],
       tableHeaders: [
@@ -105,6 +140,20 @@ export default Vue.extend({
         }
       });
     },
+    updateClassification(id,nameref,descref){
+      this.msgSuccess3 = '';
+      this.msgError3= '';
+      updateClassificationById(id,this.classificationDataToUpdate).then(res=>{
+        if (res.data){
+          this.msgSuccess3 = 'La categoria ha sido modificada.'
+        }else if (res.error){
+          this.msgError3 = 'Error en la modificacion de la categoria.'
+        }
+         this.classificationDataToUpdate.name='';
+         this.classificationDataToUpdate.description='';
+         this.updateClassificationsSorted();
+      });
+    },
     updateClassificationsSorted(){
       getClassificationsSorted().then(res=>{
         if (res.data){
@@ -114,37 +163,10 @@ export default Vue.extend({
         }
       });
     },
-    deleteSelectedClassificationsOLD(){
-      const successData = [];
-      const errorData = [];
-      this.selectedLines.forEach(data => {
-        deleteClassificationById(data.id).then(res=>{
-          if (res.data){
-            successData.push(data);
-          }else if (res.error){
-            errorData.push(data);
-          }
-          if(successData.length > 0){
-            this.msgSuccess2 = successData.length+' categorias han sido eliminadas correctamente.';
-          }
-          if(errorData.length > 0){
-            this.msgError2 = errorData.length+' categorias en error. No han sido eliminadas.';
-          }
-
-          this.updateClassificationsSorted();
-        });
-      });
-      
-    },
-
     deleteSelectedClassifications(){
       this.msgSuccess2 = '';
       this.msgError2= '';
       deleteClassifications(this.selectedLines).then(res=>{
-        console.log(res);
-        console.log(res.data);
-        console.log(res.data.successData);
-        console.log(res.data.successData.length);
         if(res.data){
           if(res.data.successData.length > 0){
             this.msgSuccess2 = res.data.successData.length+' categorias han sido eliminadas correctamente.';

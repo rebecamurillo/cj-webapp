@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ClassificationInput } from './classification.model';
 
 export async function postClassification(classification: ClassificationInput): Promise<any> {
-    return axios.post(process.env.VUE_APP_CJ_API_URL + `/classifications`,
+    return await axios.post(process.env.VUE_APP_CJ_API_URL + `/classifications`,
     classification)
         .then(resp => {
             return {data: resp.data};
@@ -15,7 +15,7 @@ export async function postClassification(classification: ClassificationInput): P
 }
 
 export async function getClassificationsSorted(): Promise<any> {
-    return axios.get(process.env.VUE_APP_CJ_API_URL + `/classifications/order`)
+    return await axios.get(process.env.VUE_APP_CJ_API_URL + `/classifications/order`)
         .then(resp => {
             return {data: resp.data};
         })
@@ -26,33 +26,31 @@ export async function getClassificationsSorted(): Promise<any> {
         });
 }
 
+export async function deleteClassifications(dataToDelete: Array<any>): Promise<any> {
+    const successData: any[] = [];
+    const errorData: any[]= [];
+    //dataToDelete.forEach(async function(data) {
+    for (const prop in dataToDelete) {
+        const data = dataToDelete[prop];
 
-    export async function deleteClassifications(dataToDelete: Array<any>): Promise<any> {
-        const successData: any[] = [];
-        const errorData: any[]= [];
-        //dataToDelete.forEach(async function(data) {
-        for (const prop in dataToDelete) {
-            const data = dataToDelete[prop];
+        await axios.delete(process.env.VUE_APP_CJ_API_URL + `/classifications/`+data.id)
+            .then(resp => {
+                successData.push(data);
+            })
+            .catch(err => {
+                errorData.push(data);
+                console.log('error');
+                console.log(err);
+            });
+        }
+    return {data: {successData: successData },
+            error: {errorData: errorData}};
+}
 
-            await axios.delete(process.env.VUE_APP_CJ_API_URL + `/classifications/`+data.id)
-                .then(resp => {
-                    successData.push(data);
-                })
-                .catch(err => {
-                    errorData.push(data);
-                    console.log('error');
-                    console.log(err);
-                });
-            }
-        //});
-        return {data: {successData: successData },
-                error: {errorData: errorData}};
-    }
-
-export async function deleteClassificationById(id: number): Promise<any> {
-    return axios.delete(process.env.VUE_APP_CJ_API_URL + `/classifications/`+id)
+export async function updateClassificationById(id: number,data: any): Promise<any> {
+    return await axios.patch(process.env.VUE_APP_CJ_API_URL + `/classifications/`+id,data)
         .then(resp => {
-            return {data: resp.data};
+            return {data: 'update ok'};
         })
         .catch(err => {
             console.log('error classification !');
