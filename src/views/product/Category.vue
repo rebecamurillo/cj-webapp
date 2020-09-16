@@ -5,24 +5,24 @@
         <v-col >
           <v-form>
             <v-text-field
-                v-model="classificationData.name"
-                name="classification"
+                v-model="categoryData.name"
+                name="Category"
                 type="text"
                 label="Categoria"
                 outlined
             ></v-text-field>
             <v-text-field
-                v-model="classificationData.description"
+                v-model="categoryData.description"
                 name="description"
                 type="text"
                 label="Descripcion"
                 outlined
             ></v-text-field>
-            <v-select v-model="classificationData.parentId" :items="classificationList" label="Categoria superior" outlined
+            <v-select v-model="categoryData.parentId" :items="categoryList" label="Categoria superior" outlined
             item-value='id'
             item-text='namewithspaces' dense>
             </v-select>
-            <v-btn color="accent" v-on:click="createClassification()">Agregar</v-btn>
+            <v-btn color="accent" v-on:click="createCategory()">Agregar</v-btn>
           </v-form>
         </v-col>
         <span style="color:green;"> {{msgSuccess1}} </span>
@@ -37,7 +37,7 @@
           <v-data-table
             v-model="selectedLines"
             :headers="tableHeaders"
-            :items="classificationList"
+            :items="categoryList"
             item-key="id"
             show-select
             class="elevation-1"
@@ -49,21 +49,21 @@
               <td :colspan="headers.length">
                 <v-form class="d-flex flex-row">
                   <v-text-field
-                  v-model="classificationDataToUpdate.name"
+                  v-model="categoryDataToUpdate.name"
                       :ref="item.id+'-name'"
                       :placeholder="item.name"
                       label="Categoria"
                       outlined dense
                   ></v-text-field>
                   <v-text-field
-                  v-model="classificationDataToUpdate.description"
+                  v-model="categoryDataToUpdate.description"
                       :ref="item.id+'-desc'"
                       :placeholder="item.description"
                       type="text"
                       label="Descripcion"
                       outlined dense
                   ></v-text-field>
-                  <v-btn color="accent" @click.prevent="updateClassification(item.id,item.id+'-name',item.id+'-desc')">Modificar</v-btn>
+                  <v-btn color="accent" @click.prevent="updateCategory(item.id,item.id+'-name',item.id+'-desc')">Modificar</v-btn>
                 </v-form>
                 <span style="color:green;"> {{msgSuccess3}}</span>
                 <br>
@@ -72,7 +72,7 @@
             </template>
           </v-data-table>
           <br>
-          <v-btn color="accent" v-on:click="deleteSelectedClassifications()">Eliminar</v-btn>
+          <v-btn color="accent" v-on:click="deleteSelectedCategorys()">Eliminar</v-btn>
           <br>
           <span style="color:green;"> {{msgSuccess2}} </span>
           <br>
@@ -87,7 +87,7 @@
 </style>
 <script>
 import Vue from 'vue';
-import { postClassification,getClassificationsSorted,deleteClassifications,updateClassificationById } from '../../modules/classification/classification.service';
+import { postCategory,getCategorysSorted,deleteCategorys,updateCategoryById } from '../../modules/category/category.service';
 
 export default Vue.extend({
   data() {
@@ -99,12 +99,12 @@ export default Vue.extend({
       msgError2: '',
       msgSuccess3: '',
       msgError3: '',
-      classificationData: {
+      categoryData: {
         name:'',
         description:'',
         parentId:0
       },
-      classificationDataToUpdate: {
+      categoryDataToUpdate: {
         name:'',
         description:''
       },
@@ -118,55 +118,55 @@ export default Vue.extend({
         },
         { text: 'Descripcion', value: 'description' }
       ],
-      classificationList: []
+      categoryList: []
     }
   },
   mounted() {
-    this.updateClassificationsSorted();  
+    this.updateCategorysSorted();  
   },
   methods: {
-    createClassification(){
+    createCategory(){
       this.msgSuccess1 = '';
       this.msgError1= '';
-      postClassification(this.classificationData).then(res=>{
+      postCategory(this.categoryData).then(res=>{
         if (res.data){
           this.msgSuccess1 = 'La categoria ha sido creada.'
-          this.classificationData.name='';
-          this.classificationData.description='';
-          this.classificationData.parentId=0;
-          this.updateClassificationsSorted();
+          this.categoryData.name='';
+          this.categoryData.description='';
+          this.categoryData.parentId=0;
+          this.updateCategorysSorted();
         }else if (res.error){
           this.msgError1 = 'Error en el envio de la categoria.'
         }
       });
     },
-    updateClassification(id,nameref,descref){
+    updateCategory(id,nameref,descref){
       this.msgSuccess3 = '';
       this.msgError3= '';
-      updateClassificationById(id,this.classificationDataToUpdate).then(res=>{
+      updateCategoryById(id,this.categoryDataToUpdate).then(res=>{
         if (res.data){
           this.msgSuccess3 = 'La categoria ha sido modificada.'
         }else if (res.error){
           this.msgError3 = 'Error en la modificacion de la categoria.'
         }
-         this.classificationDataToUpdate.name='';
-         this.classificationDataToUpdate.description='';
-         this.updateClassificationsSorted();
+         this.categoryDataToUpdate.name='';
+         this.categoryDataToUpdate.description='';
+         this.updateCategorysSorted();
       });
     },
-    updateClassificationsSorted(){
-      getClassificationsSorted().then(res=>{
+    updateCategorysSorted(){
+      getCategorysSorted().then(res=>{
         if (res.data){
-          this.classificationList = res.data;
+          this.categoryList = res.data;
         }else if (res.error){
           this.msgError1 = 'Error en el envio de la categoria.'
         }
       });
     },
-    deleteSelectedClassifications(){
+    deleteSelectedCategorys(){
       this.msgSuccess2 = '';
       this.msgError2= '';
-      deleteClassifications(this.selectedLines).then(res=>{
+      deleteCategorys(this.selectedLines).then(res=>{
         if(res.data){
           if(res.data.successData.length > 0){
             this.msgSuccess2 = res.data.successData.length+' categorias han sido eliminadas correctamente.';
@@ -179,7 +179,7 @@ export default Vue.extend({
           }
         }
         this.selectedLines = [];
-        this.updateClassificationsSorted();
+        this.updateCategorysSorted();
       });
       
     }

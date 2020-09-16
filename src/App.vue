@@ -74,7 +74,7 @@ export default Vue.extend({
             { icon:'mdi-home',text:'Principal', route:'/home'},
             { icon:'mdi-account',text:'Conectarce', route:'/login'},
             { icon:'mdi-account',text:'Productos', sublinks:[{
-              icon:'mdi-pencil',text:'Clasificacion',route: '/edit-classification'
+              icon:'mdi-pencil',text:'Categorias',route: '/category'
             }] },
             { icon:'mdi-home',text:'Quien soy ?', route:'/about'},
         ]

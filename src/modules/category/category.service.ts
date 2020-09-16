@@ -1,39 +1,39 @@
 import axios from 'axios';
-import { ClassificationInput } from './classification.model';
+import { CategoryInput } from './category.model';
 
-export async function postClassification(classification: ClassificationInput): Promise<any> {
-    return await axios.post(process.env.VUE_APP_CJ_API_URL + `/classifications`,
-    classification)
+export async function postCategory(Category: CategoryInput): Promise<any> {
+    return await axios.post(process.env.VUE_APP_CJ_API_URL + `/Categorys`,
+    Category)
         .then(resp => {
             return {data: resp.data};
         })
         .catch(err => {
-            console.log('error post classification !');
+            console.log('error post Category !');
             console.log(err);
             return {error : err};
         });
 }
 
-export async function getClassificationsSorted(): Promise<any> {
-    return await axios.get(process.env.VUE_APP_CJ_API_URL + `/classifications/order`)
+export async function getCategorysSorted(): Promise<any> {
+    return await axios.get(process.env.VUE_APP_CJ_API_URL + `/Categorys/order`)
         .then(resp => {
             return {data: resp.data};
         })
         .catch(err => {
-            console.log('error classification !');
+            console.log('error Category !');
             console.log(err);
             return {error : err};
         });
 }
 
-export async function deleteClassifications(dataToDelete: Array<any>): Promise<any> {
+export async function deleteCategorys(dataToDelete: Array<any>): Promise<any> {
     const successData: any[] = [];
     const errorData: any[]= [];
     //dataToDelete.forEach(async function(data) {
     for (const prop in dataToDelete) {
         const data = dataToDelete[prop];
 
-        await axios.delete(process.env.VUE_APP_CJ_API_URL + `/classifications/`+data.id)
+        await axios.delete(process.env.VUE_APP_CJ_API_URL + `/Categorys/`+data.id)
             .then(resp => {
                 successData.push(data);
             })
@@ -47,13 +47,13 @@ export async function deleteClassifications(dataToDelete: Array<any>): Promise<a
             error: {errorData: errorData}};
 }
 
-export async function updateClassificationById(id: number,data: any): Promise<any> {
-    return await axios.patch(process.env.VUE_APP_CJ_API_URL + `/classifications/`+id,data)
+export async function updateCategoryById(id: number,data: any): Promise<any> {
+    return await axios.patch(process.env.VUE_APP_CJ_API_URL + `/Categorys/`+id,data)
         .then(resp => {
             return {data: 'update ok'};
         })
         .catch(err => {
-            console.log('error classification !');
+            console.log('error Category !');
             console.log(err);
             return {error : err};
         });

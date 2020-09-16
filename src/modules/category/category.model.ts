@@ -1,4 +1,4 @@
-export interface ClassificationInput {
+export interface CategoryInput {
     name: string;
     description: string;
     parentId: number;

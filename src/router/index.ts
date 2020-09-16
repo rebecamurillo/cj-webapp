@@ -3,7 +3,7 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
-import Classifications from '../views/product/Classifications.vue'
+import Category from '../views/product/Category.vue'
 
 Vue.use(VueRouter)
 
@@ -29,9 +29,9 @@ Vue.use(VueRouter)
     component: Login
   },
   {
-    path: '/edit-classification',
-    name: 'Edit Classification',
-    component: Classifications
+    path: '/category',
+    name: 'Edit Category',
+    component: Category
   }
 ]
 
