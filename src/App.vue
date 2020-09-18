@@ -4,7 +4,7 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
         <v-list-item link v-for="link in links" :key="link.text" router :to="link.route">
-          <v-list-group v-if="link.sublinks" no-action value="true" >
+          <v-list-group v-if="link.sublinks" no-action value="true">
             <template v-slot:activator>
               <v-list-item-icon>
                 <v-icon>{{ link.icon }}</v-icon>
@@ -54,6 +54,15 @@
   </v-app>
 </template>
 
+<style>
+.v-list-group__header {
+    padding: 0 0;
+}
+.v-list-group__header {
+    padding: 0 0;
+}
+</style>
+
 <script lang="ts">
 import Vue from 'vue';
 import { logout } from './modules/auth/auth.service';
@@ -73,9 +82,10 @@ export default Vue.extend({
         links: [
             { icon:'mdi-home',text:'Principal', route:'/home'},
             { icon:'mdi-account',text:'Conectarce', route:'/login'},
-            { icon:'mdi-account',text:'Productos', sublinks:[{
-              icon:'mdi-pencil',text:'Categorias',route: '/category'
-            }] },
+            { icon:'mdi-account',text:'Productos', sublinks:[
+              { icon:'mdi-pencil',text:'Categorias',route: '/category'},
+              { icon:'mdi-pencil',text:'Productos',route: '/product'}
+            ] },
             { icon:'mdi-home',text:'Quien soy ?', route:'/about'},
         ]
     }
