@@ -1,40 +1,40 @@
 import axios from 'axios';
-import { ProductInput } from './product.model';
+import { AttributeInput } from './attribute.model';
 
-const routeName = `/products`;
+const routeName = `/attributes`;
 
-export async function postProduct(product: ProductInput): Promise<any> {
+export async function postAttribute(supplier: AttributeInput): Promise<any> {
     return await axios.post(process.env.VUE_APP_CJ_API_URL + routeName,
-    product)
+    supplier)
         .then(resp => {
             return {data: resp.data};
         })
         .catch(err => {
-            console.log('error post Product !');
+            console.log('error post attribute !');
             console.log(err);
             return {error : err};
         });
 }
 
-export async function getProduct(): Promise<any> {
+export async function getAttributes(): Promise<any> {
     return await axios.get(process.env.VUE_APP_CJ_API_URL + routeName)
         .then(resp => {
             return {data: resp.data};
         })
         .catch(err => {
-            console.log('error Product !');
+            console.log('error attribute !');
             console.log(err);
             return {error : err};
         });
 }
 
-export async function deleteProducts(dataToDelete: Array<any>): Promise<any> {
+export async function deleteAttribute(dataToDelete: Array<any>): Promise<any> {
     const successData: any[] = [];
     const errorData: any[]= [];
     for (const prop in dataToDelete) {
         const data = dataToDelete[prop];
 
-        await axios.delete(process.env.VUE_APP_CJ_API_URL + routeName + `/` +data.id)
+        await axios.delete(process.env.VUE_APP_CJ_API_URL + routeName + `/` + data.id)
             .then(resp => {
                 successData.push(data);
             })
@@ -48,13 +48,25 @@ export async function deleteProducts(dataToDelete: Array<any>): Promise<any> {
             error: {errorData: errorData}};
 }
 
-export async function updateProductById(id: number,data: ProductInput): Promise<any> {
-    return await axios.patch(process.env.VUE_APP_CJ_API_URL + routeName+ `/`+id,data)
+export async function updateAttributeById(id: number,data: AttributeInput): Promise<any> {
+    return await axios.patch(process.env.VUE_APP_CJ_API_URL + routeName + `/` +id,data)
         .then(resp => {
             return {data: 'update ok'};
         })
         .catch(err => {
-            console.log('error Product !');
+            console.log('error attribute !');
+            console.log(err);
+            return {error : err};
+        });
+}
+
+export async function deleteAttributeById(id: number): Promise<any> {
+    return await axios.delete(process.env.VUE_APP_CJ_API_URL + routeName + `/` +id)
+        .then(resp => {
+            return {data: 'delete ok'};
+        })
+        .catch(err => {
+            console.log('error attribute !');
             console.log(err);
             return {error : err};
         });

@@ -7,6 +7,7 @@ export interface ProductInput {
     categoryId: number;
     brandId: number;
     supplierId: number;
+    userId: number;
     attributesValue: [
         {
             attributeId: number;
